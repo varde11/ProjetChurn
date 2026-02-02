@@ -1,0 +1,9 @@
+sqlalchemy
+psycopg2-binary
+joblib
+numpy
+pandas
+pydantic
+fastapi
+uvicorn
+scikit-learn == 1.6.1
