@@ -80,3 +80,33 @@ def test_get_client():
     assert response_get.json()["monthlycharges"] == 1000
     assert response_get.json()["tenure"] == 2
     assert response_get.json()["totalcharges"] == 1002
+
+
+def test_predict():
+    
+
+    for option in ["precision", "recall"]:
+        reponse_post = client.post(f"/AddPrediction/{option}/1")
+        assert reponse_post.status_code ==200
+
+        data=reponse_post.json()
+        assert 'label' in data 
+        assert 'score' in data
+        assert 'time_stamp' in data
+        assert 'option_model' in data
+        assert data['id_client'] == 1 
+
+        
+    for id in range(1,3):
+        reponse_get_by_idPred = client.get(f"/getPredictionByIdPrediction?id_prediction={id}")
+
+        assert reponse_get_by_idPred.status_code ==200
+
+        assert reponse_get_by_idPred.json()['id_prediction'] == id
+        assert reponse_get_by_idPred.json()['id_client'] == 1 # au début on a fait f"/Prediction/{option}/1 , on a 1 client d'id 1.
+
+    reponse_get_by_idClient = client.get("/getPredictionByIdClient?id_client=1")
+
+    assert reponse_get_by_idClient.status_code == 200
+    assert len(reponse_get_by_idClient.json()) == 2 # On est supposé avoir autant de prédiction que d'option, ie:2
+    
