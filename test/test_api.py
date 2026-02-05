@@ -134,3 +134,70 @@ def test_delete():
     
     reponse_get_client_by_idClient = client.get("/GetClientByIdClient?id_client=1")
     assert reponse_get_client_by_idClient.status_code == 404
+
+
+def test_addclient():
+
+    client_fake = {
+        "seniorcitizen" : "Yes",
+        "partner" : "Yes",
+        "dependents" :"Yes",
+        "phoneservice" : "Yes",
+        "paperlessbilling" : "Yes",
+        "multiplelines" : "Yes",
+        "internetservice" : "DSL",
+        "onlinesecurity" : "Yes",
+        "onlinebackup" : "Yes",
+        "deviceprotection" : "Yes",
+        "techsupport" : "Yes",
+        "streamingtv" : "Yes",
+        "streamingmovies" :"Yes",
+        "contract" : "Two year",
+        "paymentmethod" : "Credit card (automatic)",
+        "monthlycharges" : 10000,
+        "tenure" : 1,
+        "totalcharges" : 1002
+    }
+
+    reponse_add = client.post("/AddClient",json=client_fake)
+    assert reponse_add.status_code == 200
+    
+    assert reponse_add.json()["monthlycharges"] == 10000
+    assert reponse_add.json()["tenure"] == 1
+    assert reponse_add.json()["totalcharges"] == 1002
+    option = "precision"
+    reponse_post = client.post(f"/AddPrediction/{option}/1")
+    assert reponse_post.status_code == 200
+    
+    assert 'label' in reponse_post.json()
+    assert 'score' in reponse_post.json()
+    assert 'time_stamp' in reponse_post.json()
+    assert 'option_model' in reponse_post.json()
+    assert reponse_post.json()['id_client'] == 1
+    assert reponse_post.json()['id_prediction'] == 1
+
+    get_client = client.get(f"/GetAllClientByLabel?label={reponse_post.json()['label']}")
+    assert get_client.status_code == 200
+    assert len(get_client.json()) == 1
+
+    reponse_delete_client = client.delete("/DeleteClientByIdClient?id_client=1")
+    assert reponse_delete_client.status_code == 200
+
+    response_get_client = client.get("/GetClientByIdClient/1")
+    assert response_get_client.status_code == 404
+
+    reponse_get_by_idPred = client.get("/getPredictionByIdPrediction/1")
+    assert reponse_get_by_idPred.status_code == 404
+
+
+
+
+
+
+
+
+
+    
+
+
+    
