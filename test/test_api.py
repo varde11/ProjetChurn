@@ -110,3 +110,27 @@ def test_predict():
     assert reponse_get_by_idClient.status_code == 200
     assert len(reponse_get_by_idClient.json()) == 2 # On est supposé avoir autant de prédiction que d'option, ie:2
     
+
+def test_delete():
+
+    reponse_delete_by_idPred = client.delete("/deletePredictionByIdPrediction?id_prediction=1")
+
+    assert reponse_delete_by_idPred.status_code == 200
+    assert reponse_delete_by_idPred.json()['id_prediction'] == 1
+
+    reponse_delete_by_idClient = client.delete("/deletePredictionByIdClient?id_client=1")
+
+    assert reponse_delete_by_idClient.status_code == 200
+    assert len(reponse_delete_by_idClient.json()) == 1
+
+    reponse_get_prediction_by_idClient = client.get("/getPredictionByIdClient?id_client=1")
+    assert reponse_get_prediction_by_idClient.status_code == 200 #client existe mais n'a fait aucune prédiction
+
+    reponse_get_prediction_by_idprediction = client.get("/getPredictionByIdPrediction?id_prediction=1")
+    reponse_get_prediction_by_idprediction.status_code == 404
+
+    reponse_delete_client = client.delete("/DeleteClientByIdClient?id_client=1")
+    assert reponse_delete_client.status_code == 200
+    
+    reponse_get_client_by_idClient = client.get("/GetClientByIdClient?id_client=1")
+    assert reponse_get_client_by_idClient.status_code == 404
