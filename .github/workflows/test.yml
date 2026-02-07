@@ -49,6 +49,6 @@ jobs :
           with :
             context : ./app
             push : true 
-            tags : ${{secrets.DOCKERHUB_USERNAME}}/imagecredit:latest 
+            tags : ${{secrets.DOCKERHUB_USERNAME}}/monimagechurn:latest 
   
   
