@@ -42,7 +42,7 @@ def get_all_client(label:EnumChurn,db:Session=Depends(get_db)):
         clients = db.query(Client).join(Prediction,Prediction.id_client == Client.id_client).filter(Prediction.label == label).distinct().all()
     
     if not clients :
-        []
+        return []
 
     return clients
 
@@ -72,7 +72,7 @@ def get_prediction_by_id_prediction(id_prediction:int,db:Session=Depends(get_db)
 
 
 
-@app.post("/AddPrediction/{option}/{id_client}",response_model=PredictRequest)
+@app.post("/AddPrediction/{id_client}/{option}",response_model=PredictRequest)
 def churn_prediction(id_client:int,option:EnumOption, db:Session=Depends(get_db)):
 
     client_obj= db.query(Client).filter(Client.id_client==id_client).first()
