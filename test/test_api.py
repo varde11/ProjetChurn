@@ -1,5 +1,6 @@
 import os
 import sys
+import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../app')))
 
@@ -38,9 +39,9 @@ client = TestClient(app)
 
 def setup_database():
     """Cette fonction réinitialise la base et crée un client test"""
-   
+    # Réinitialiser complètement la base
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-
 
     db = TestingSessionLocal()
     fake_client = Client(
@@ -70,10 +71,15 @@ def setup_database():
     db.close()
 
 
+@pytest.fixture(autouse=True)
+def reset_db():
+    """Fixture qui réinitialise la base avant chaque test"""
+    setup_database()
+    yield
+
+
 
 def test_get_client():
-    setup_database()
-
     response_get = client.get("/GetClientByIdClient?id_client=1")
     assert response_get.status_code == 200
     assert response_get.json()["id_client"] == 1
@@ -86,7 +92,7 @@ def test_predict():
     
 
     for option in ["precision", "recall"]:
-        reponse_post = client.post(f"/AddPrediction/{option}/1")
+        reponse_post = client.post(f"/AddPrediction/1/{option}")
         assert reponse_post.status_code ==200
 
         data=reponse_post.json()
@@ -112,12 +118,20 @@ def test_predict():
     
 
 def test_delete():
+    # Créer d'abord une prédiction pour la supprimer
+    reponse_predict = client.post("/AddPrediction/1/precision")
+    assert reponse_predict.status_code == 200
+    id_prediction = reponse_predict.json()['id_prediction']
 
-    reponse_delete_by_idPred = client.delete("/deletePredictionByIdPrediction?id_prediction=1")
+    reponse_delete_by_idPred = client.delete(f"/deletePredictionByIdPrediction?id_prediction={id_prediction}")
 
     assert reponse_delete_by_idPred.status_code == 200
-    assert reponse_delete_by_idPred.json()['id_prediction'] == 1
+    assert reponse_delete_by_idPred.json()['id_prediction'] == id_prediction
 
+    # Créer une autre prédiction pour tester la suppression par id_client
+    reponse_predict2 = client.post("/AddPrediction/1/recall")
+    assert reponse_predict2.status_code == 200
+    
     reponse_delete_by_idClient = client.delete("/deletePredictionByIdClient?id_client=1")
 
     assert reponse_delete_by_idClient.status_code == 200
@@ -125,9 +139,6 @@ def test_delete():
 
     reponse_get_prediction_by_idClient = client.get("/getPredictionByIdClient?id_client=1")
     assert reponse_get_prediction_by_idClient.status_code == 200 #client existe mais n'a fait aucune prédiction
-
-    reponse_get_prediction_by_idprediction = client.get("/getPredictionByIdPrediction?id_prediction=1")
-    reponse_get_prediction_by_idprediction.status_code == 404
 
     reponse_delete_client = client.delete("/DeleteClientByIdClient?id_client=1")
     assert reponse_delete_client.status_code == 200
@@ -166,7 +177,7 @@ def test_addclient():
     assert reponse_add.json()["tenure"] == 1
     assert reponse_add.json()["totalcharges"] == 1002
     option = "precision"
-    reponse_post = client.post(f"/AddPrediction/{option}/1")
+    reponse_post = client.post(f"/AddPrediction/1/{option}")
     assert reponse_post.status_code == 200
     
     assert 'label' in reponse_post.json()
