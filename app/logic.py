@@ -17,6 +17,7 @@ _scaler = None
 _encoder = None
 
 
+
 def load_artifacts():
   
     global _model_precision,_model_recall, _scaler, _encoder
@@ -62,10 +63,13 @@ def preprocess(df: pd.DataFrame) -> np.ndarray:
     X = np.hstack([df[bin_cols].values,cat_part,num_part]) 
     return X
 
-def predict_churn(df:pd.DataFrame,option: str) -> Dict[str, Any]:
+def predict_churn(df:pd.DataFrame,option: str,threshold: float ) -> Dict[str, Any]:
    
     load_artifacts()
     X = preprocess(df)
+
+    if threshold < 0 or threshold > 1 :
+        return {"erreur":" La valeur de threshold n'est pas respectée."}
 
     if option =='precision':
         probs = _model_precision.predict_proba(X)[:, 1]
@@ -73,5 +77,5 @@ def predict_churn(df:pd.DataFrame,option: str) -> Dict[str, Any]:
         probs = _model_recall.predict_proba(X)[:, 1]
 
     prob = float(probs[0])
-    label = "churn" if prob >= 0.5 else "no_churn"
+    label = "churn" if prob >= threshold else "no_churn"
     return {"churn_probability": prob, "prediction": label}

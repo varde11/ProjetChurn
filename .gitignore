@@ -3,3 +3,7 @@ __pycache__
 .pytest_cache
 venv
 te.txt
+2_*
+3_*
+decision_logic.py
+api_client.py

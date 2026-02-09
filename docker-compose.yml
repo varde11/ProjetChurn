@@ -1,5 +1,5 @@
 services:
-  imagesentiment:
+  imagechurn:
     build: ./app
       
     image: monimagechurn
@@ -12,6 +12,17 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       
+  
+  ui:
+    image: imagechurn_ui
+    build: ./ui
+    container_name: churn_ui
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: ${API_URL}
+    depends_on:
+      - imagechurn
 
   db:
     image: postgres:15

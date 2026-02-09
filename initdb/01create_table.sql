@@ -26,7 +26,10 @@ CREATE TABLE Prediction(
     id_client INT REFERENCES Client(id_client) NOT NULL,
     option_model VARCHAR (10),
     score DOUBLE PRECISION,
+    threshold NUMERIC,
     label VARCHAR(10),
+    actions JSON,
+    roi JSON,
     time_stamp TIMESTAMP --  mettez plûtot TIMESTAMP à la place de DATE
 
 );

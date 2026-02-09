@@ -1,6 +1,7 @@
 from sqlalchemy import Column,Integer,Double,DateTime,String,Float,ForeignKey
 from sqlalchemy.orm import DeclarativeBase
 from datetime import datetime
+from sqlalchemy.types import JSON
 
 class Base(DeclarativeBase):
     pass
@@ -33,16 +34,17 @@ class Prediction(Base):
     __tablename__="prediction"
 
     id_prediction = Column(Integer, primary_key=True,index=True, autoincrement=True)
-    
     id_client = Column(Integer,ForeignKey("client.id_client"),nullable=False)
-
     option_model = Column(String)
     score = Column(Double)
+    threshold = Column(Float)
     label = Column(String)
+    actions =  Column(JSON)
+    roi = Column(JSON)
+
     time_stamp =  Column(DateTime,default=datetime.now())
 
 #print(datetime.now().strftime("%Y-%m-%d , %H:%M:%S"))
-
 
 
     

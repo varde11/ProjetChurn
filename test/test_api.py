@@ -92,7 +92,7 @@ def test_predict():
     
 
     for option in ["precision", "recall"]:
-        reponse_post = client.post(f"/AddPrediction/1/{option}")
+        reponse_post = client.post(f"/AddPrediction/1/{option}?threshold=0.5")
         assert reponse_post.status_code ==200
 
         data=reponse_post.json()
@@ -119,7 +119,7 @@ def test_predict():
 
 def test_delete():
     # Créer d'abord une prédiction pour la supprimer
-    reponse_predict = client.post("/AddPrediction/1/precision")
+    reponse_predict = client.post("/AddPrediction/1/precision?threshold=0.5")
     assert reponse_predict.status_code == 200
     id_prediction = reponse_predict.json()['id_prediction']
 
@@ -129,7 +129,7 @@ def test_delete():
     assert reponse_delete_by_idPred.json()['id_prediction'] == id_prediction
 
     # Créer une autre prédiction pour tester la suppression par id_client
-    reponse_predict2 = client.post("/AddPrediction/1/recall")
+    reponse_predict2 = client.post("/AddPrediction/1/recall?threshold=0.5")
     assert reponse_predict2.status_code == 200
     
     reponse_delete_by_idClient = client.delete("/deletePredictionByIdClient?id_client=1")
@@ -177,7 +177,7 @@ def test_addclient():
     assert reponse_add.json()["tenure"] == 1
     assert reponse_add.json()["totalcharges"] == 1002
     option = "precision"
-    reponse_post = client.post(f"/AddPrediction/1/{option}")
+    reponse_post = client.post(f"/AddPrediction/1/{option}?threshold=0.5")
     assert reponse_post.status_code == 200
     
     assert 'label' in reponse_post.json()
