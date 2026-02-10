@@ -112,14 +112,7 @@ def decision_by_id_prediction(
     payload: DecisionIn,
     db: Session = Depends(get_db)
 ):
-    """Centralise les petits paramètres dans `DecisionIn` (payload).
-
-    Workflow :
-    - appelle `churn_prediction` pour obtenir la prédiction
-    - calcule les actions recommandées
-    - calcule le ROI
-    - stocke et retourne la prédiction
-    """
+    
 
     id_client = payload.id_client
     option = payload.option

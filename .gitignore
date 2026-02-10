@@ -3,6 +3,5 @@ __pycache__
 .pytest_cache
 venv
 te.txt
-2_*
-3_*
+
 
