@@ -75,7 +75,23 @@ def predict_churn(df:pd.DataFrame,option: str,threshold: float ) -> Dict[str, An
         probs = _model_precision.predict_proba(X)[:, 1]
     elif option =='recall':
         probs = _model_recall.predict_proba(X)[:, 1]
+    else:
+        raise ValueError("option must be 'precision' or 'recall'")
 
     prob = float(probs[0])
     label = "churn" if prob >= threshold else "no_churn"
     return {"churn_probability": prob, "prediction": label}
+
+
+def predict_proba_batch(df: pd.DataFrame, option: str) -> np.ndarray:
+    load_artifacts()
+    X = preprocess(df)
+
+    if option == "precision":
+        probs = _model_precision.predict_proba(X)[:, 1]
+    elif option == "recall":
+        probs = _model_recall.predict_proba(X)[:, 1]
+    else:
+        raise ValueError("option must be 'precision' or 'recall'")
+
+    return probs

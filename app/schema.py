@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Literal, List
+from typing import Literal, List,Optional
 from datetime import datetime
 from enum import Enum
 
@@ -98,3 +98,54 @@ class DecisionIn(BaseModel):
     churn_cost: float = Field(ge=0, default=500.0)
     retention_cost: float = Field(ge=0, default=50.0)
     success_rate: float = Field(ge=0, le=1, default=0.30)
+
+
+
+
+class SimulationIn(BaseModel):
+    option: Literal["precision", "recall"]
+
+    strategy: Literal["threshold", "top_percent"] = "threshold"
+    threshold: Optional[float] = Field(default=0.5, ge=0, le=1)
+    top_percent: Optional[float] = Field(default=10.0, ge=0, le=100)
+
+    churn_cost: float = Field(default=500.0, ge=0)
+    retention_cost: float = Field(default=50.0, ge=0)
+    success_rate: float = Field(default=0.30, ge=0, le=1)
+
+    # pour comparer plusieurs seuils en une requête
+    thresholds: Optional[List[float]] = None
+
+class SimulationPointOut(BaseModel):
+    threshold: float
+    treated_clients: int
+    treat_rate: float
+    expected_saved: float
+    expected_cost: float
+    expected_roi: float
+
+class TopClientOut(BaseModel):
+    id_client: int
+    churn_probability: float
+    expected_saved: float
+    expected_cost: float
+    expected_roi: float
+
+class SimulationOut(BaseModel):
+    option: Literal["precision", "recall"]
+    strategy: Literal["threshold", "top_percent"]
+
+    n_clients: int
+    treated_clients: int
+    treat_rate: float
+
+    churn_cost: float
+    retention_cost: float
+    success_rate: float
+
+    expected_saved: float
+    expected_cost: float
+    expected_roi: float
+
+    curve: List[SimulationPointOut] = []
+    top_clients: List[TopClientOut] = []

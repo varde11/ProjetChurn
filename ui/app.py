@@ -9,8 +9,6 @@ st.set_page_config(
 st.title("📉 Churn Decision App")
 st.write(
     """
-Cette application consomme l'API FastAPI de prédiction de churn.
-
 Utilise le menu à gauche pour naviguer :
 - **Clients**
 - **Détail client**
