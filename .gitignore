@@ -3,6 +3,5 @@ __pycache__
 .pytest_cache
 venv
 te.txt
-simulation_roi.py
 
 
