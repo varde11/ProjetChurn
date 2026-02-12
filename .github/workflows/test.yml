@@ -1,0 +1,54 @@
+name : cichurn
+
+on :
+  push :
+    branches : ["main"]
+
+jobs :
+
+  test_api : 
+    runs-on : ubuntu-latest
+    
+    steps :
+      - name : checkout du code 
+        uses : actions/checkout@v3
+
+      - name : Install python
+        uses : actions/setup-python@v4
+        with :
+          python-version : '3.11'
+      
+      - name : Install dependencies
+        run : |
+          pip install --upgrade pip
+          pip install -r app/requirements.txt
+          pip install pytest httpx
+      
+      - name : Lancement du test
+        
+        run : |
+          pytest test/ 
+  
+
+  docker_push :
+      runs-on : ubuntu-latest
+      needs : test_api 
+      steps :
+
+        - name : checkout du code 
+          uses : actions/checkout@v3
+
+        - name : login to dockerhub
+          uses : docker/login-action@v2
+          with :
+            username : ${{secrets.DOCKERHUB_USERNAME}}
+            password : ${{secrets.DOCKERHUB_PASSWORD}}
+        
+        - name : build and push
+          uses : docker/build-push-action@v4
+          with :
+            context : ./app
+            push : true 
+            tags : ${{secrets.DOCKERHUB_USERNAME}}/monimagechurn:latest 
+  
+  
