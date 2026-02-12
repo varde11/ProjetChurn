@@ -24,7 +24,7 @@ with left:
     retention_cost = st.number_input("Coût rétention", min_value=0.0, value=50.0, step=5.0)
     success_rate = st.slider("Taux de succès rétention", 0.0, 1.0, 0.30, 0.05)
 
-    run = st.button("🚀 Exécuter /Decision (et enregistrer)")
+    run = st.button("Exécuter et enregistrer")
 
 with right:
     try:
@@ -73,7 +73,7 @@ if run:
             cc1.metric("Gain attendu", f"{float(roi.get('expected_saved', 0.0)):.2f}")
             cc2.metric("Coût action", f"{float(roi.get('expected_cost', 0.0)):.2f}")
             cc3.metric("ROI attendu", f"{float(roi.get('expected_roi', 0.0)):.2f}")
-            cc4.metric("Treat", "✅" if roi.get("treat") else "❌")
+            cc4.metric("Treat", "Oui" if roi.get("treat") else "Non")
         else:
             st.info("ROI non retourné.")
 

@@ -58,3 +58,8 @@ def add_prediction(id_client: int, option: str, threshold: float) -> Dict[str, A
         timeout=30
     )
     return _handle(resp)
+
+
+def simulate_roi(payload: Dict[str, Any]) -> Dict[str, Any]:
+    resp = requests.post(f"{API_URL}/Simulation", json=payload, timeout=120)
+    return _handle(resp)

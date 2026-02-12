@@ -90,18 +90,18 @@ st.subheader("Analyse ROI")
 
 roi = pred.get("roi", {})
 
-if roi:
+if roi :
     cc1, cc2, cc3, cc4 = st.columns(4)
     cc1.metric("Gain attendu", f"{roi.get('expected_saved', 0):.2f}")
     cc2.metric("Coût action", f"{roi.get('expected_cost', 0):.2f}")
     cc3.metric("ROI attendu", f"{roi.get('expected_roi', 0):.2f}")
-    cc4.metric("Treat", "✅ Oui" if roi.get("treat") else "❌ Non")
+    cc4.metric("Treat", "Oui" if roi.get("treat") else "Non")
 
     st.divider()
 
     if roi.get("expected_roi", 0) > 0:
-        st.success("💰 Décision rentable — action recommandée")
-    else:
-        st.warning("⚠️ Décision non rentable — action à reconsidérer")
+        st.success("Décision rentable — action recommandée")
+    if roi["treat"] and roi.get("expected_roi")<=0:
+        st.warning("Décision non rentable — action à reconsidérer")
 else:
     st.info("ROI non disponible pour cette prédiction.")

@@ -90,6 +90,7 @@ class DecisionOut(BaseModel):
     actions: List[str]
     roi: RoiOut
     time_stamp: datetime
+    model_config = {"from_attributes": True}
 
 class DecisionIn(BaseModel):
     id_client: int = Field(ge=1)
@@ -138,6 +139,7 @@ class SimulationOut(BaseModel):
     n_clients: int
     treated_clients: int
     treat_rate: float
+    optimal_threshold:float=Field(ge=0,le=1)
 
     churn_cost: float
     retention_cost: float

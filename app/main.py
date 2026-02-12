@@ -127,14 +127,14 @@ def decision_by_id_prediction(
     if not churn_obj:
         raise HTTPException(status_code=500, detail="La prédiction n'a pas pu être faite.")
 
-    # Vérifier que le client existe
+    
     client_obj = db.query(Client).filter(Client.id_client == id_client).first()
     if not client_obj:
         raise HTTPException(status_code=404, detail=f"Client introuvable pour id_client={id_client}")
 
     client_schema = ClientOut.model_validate(client_obj)
 
-    # Recommander les actions et calculer le ROI
+    
     actions = recommend_actions(client_schema, churn_obj["label"])
     roi_calc = compute_roi(
         score=float(churn_obj["score"]),
@@ -185,7 +185,7 @@ def delete_predictions_by_idclient(id_client:int, db:Session=Depends(get_db)):
         raise HTTPException(status_code=404,detail=f"Le client d'identifiant {id_client} n'existe pas.")
     
     predictions = db.query(Prediction).filter(Prediction.id_client==id_client).all()
-    deleted = [PredictRequest.model_validate(pred).model_dump() for pred in predictions]
+    deleted = [DecisionOut.model_validate(pred).model_dump() for pred in predictions]
 
     db.query(Prediction).filter(Prediction.id_client==id_client).delete(synchronize_session=False)
     db.commit()
@@ -200,7 +200,7 @@ def delete_predictions_by_idprediction(id_prediction:int, db:Session=Depends(get
     if not prediction:
         raise HTTPException(status_code=404, detail=f"Aucune prédiction trouvée avec l'id {id_prediction}")
 
-    deleted = PredictRequest.model_validate(prediction).model_dump()
+    deleted = DecisionOut.model_validate(prediction).model_dump()
     db.query(Prediction).filter(Prediction.id_prediction==id_prediction).delete(synchronize_session=False)
     db.commit()
 
@@ -264,23 +264,26 @@ def simulate_roi(payload: SimulationIn, db: Session = Depends(get_db)):
 
     n_clients = len(probs)
 
-    # 3) stratégie de sélection
+    
     curve = []
     if payload.strategy == "threshold":
-        thresholds = payload.thresholds or [float(payload.threshold)]
-        # validation légère
+        
+        thresholds = payload.thresholds or [0.3, 0.5, 0.7] # si l'utilisateur a la flemme de donner les valeurs
+    
         for th in thresholds:
             if th < 0 or th > 1:
                 raise HTTPException(status_code=422, detail="Tous les thresholds doivent être entre 0 et 1.")
-        # calcul de la courbe
+    
         curve = [compute_for_threshold(float(th)) for th in thresholds]
-        
+            
         main = max(curve, key=lambda x: x["expected_roi"])
         print("main:\n",main)
 
         treated_mask = probs >= float(main["threshold"])
+        
+           
 
-    else:  # top_percent
+    else:  
         top_percent = float(payload.top_percent or 0.0)
         if top_percent < 0 or top_percent > 100:
             raise HTTPException(status_code=422, detail="top_percent doit être entre 0 et 100.")
@@ -331,6 +334,7 @@ def simulate_roi(payload: SimulationIn, db: Session = Depends(get_db)):
         "n_clients": n_clients,
         "treated_clients": int(main["treated_clients"]),
         "treat_rate": float(main["treat_rate"]),
+        "optimal_threshold" : float(main["threshold"]),
         "churn_cost": churn_cost,
         "retention_cost": retention_cost,
         "success_rate": success_rate,
@@ -338,7 +342,7 @@ def simulate_roi(payload: SimulationIn, db: Session = Depends(get_db)):
         "expected_cost": float(main["expected_cost"]),
         "expected_roi": float(main["expected_roi"]),
         "curve": curve,
-        "top_clients": top_clients,
+        "top_clients": top_clients
     }
 
 
