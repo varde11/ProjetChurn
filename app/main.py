@@ -10,7 +10,7 @@ from db import engine
 from decision_logic import recommend_actions,compute_roi
 import pandas as pd
 from datetime import datetime
-
+from fill_db import seed_clients_if_empty
 from contextlib import asynccontextmanager
 
 
@@ -19,6 +19,14 @@ async def lifespan(app:FastAPI):
     print("préparation des ressources!")
     Base.metadata.create_all(bind=engine)
     load_artifacts()
+
+    from db import SessionLocal 
+    db = SessionLocal()
+    try:
+        seed_clients_if_empty(db)
+    finally:
+        db.close()
+        
     print("préparation terminée")
     yield
     print("fermeture de l'application, merci de l'avoir essayer, a+")
