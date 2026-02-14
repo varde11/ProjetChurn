@@ -1,6 +1,6 @@
 from logic import load_artifacts,predict_churn,predict_proba_batch
 from fastapi import FastAPI,HTTPException,Depends,Query
-from db import get_db
+from db import get_db, sessionLocal
 from sqlalchemy.orm import Session
 from sqlalchemy import asc
 from schema import PredictRequest,ClientOut,EnumOption,EnumChurn,ClientIn,DecisionOut,DecisionIn,SimulationIn,SimulationOut
@@ -15,11 +15,13 @@ from contextlib import asynccontextmanager
 
 
 @asynccontextmanager
-async def lifespan(app:FastAPI,db:Session=Depends(get_db)):
+async def lifespan(app: FastAPI):
     print("préparation des ressources!")
     Base.metadata.create_all(bind=engine)
     load_artifacts()
 
+    # Depends() isn't resolved for the lifespan function, create a session explicitly
+    db = sessionLocal()
     try:
         seed_clients_if_empty(db)
     finally:
