@@ -15,18 +15,16 @@ from contextlib import asynccontextmanager
 
 
 @asynccontextmanager
-async def lifespan(app:FastAPI):
+async def lifespan(app:FastAPI,db:Session=Depends(get_db)):
     print("préparation des ressources!")
     Base.metadata.create_all(bind=engine)
     load_artifacts()
 
-    from db import SessionLocal 
-    db = SessionLocal()
     try:
         seed_clients_if_empty(db)
     finally:
         db.close()
-        
+
     print("préparation terminée")
     yield
     print("fermeture de l'application, merci de l'avoir essayer, a+")
