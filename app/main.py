@@ -35,6 +35,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Churn Prediction API ",lifespan=lifespan)
 
 
+
+@app.get("/Healthycheck")
+def get_healthy():
+    return {"healthy":"okay"}
+
 @app.get("/GetClientByIdClient",response_model=ClientOut)
 def get_client_by_id(id_client:int, db:Session=Depends(get_db)):
     client_obj= db.query(Client).filter(Client.id_client==id_client).first()
