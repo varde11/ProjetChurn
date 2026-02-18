@@ -12,27 +12,27 @@ def recommend_actions(client: ClientOut, label: str) -> list[str]:
     payment = client.paymentmethod.lower()
 
     if label == "no_churn":
-        actions.append("✅ Risque sous le seuil : pas d'action coûteuse. Surveillance mensuelle.")
+        actions.append("Risque sous le seuil défini : Surveillance mensuelle.")
         return actions
 
-    # règles simples et actionnables
+  
     if "month" in contract:
-        actions.append("📌 Proposer une migration vers un contrat One year / Two year (réduction ciblée).")
+        actions.append("Proposer une migration vers un contrat One year / Two year (réduction ciblée).")
     if tenure < 6:
-        actions.append("📞 Appel onboarding / satisfaction (nouveau client) + résolution rapide des irritants.")
+        actions.append("Appel régulier pour faire le point sur sa satisfaction.")
     if monthly > 80:
-        actions.append("💸 Offre promotionnelle courte (2-3 mois) plutôt qu'une remise permanente.")
+        actions.append("Offre promotionnelle courte (2-3 mois) plutôt qu'une remise permanente.")
     if internet == "fiber optic":
-        actions.append("🛠️ Vérifier la qualité de la fibre (incidents) + support proactif.")
+        actions.append("Vérifier la qualité de la fibre + support proactif.")
     if techsupport in ["no", "no internet service"]:
-        actions.append("🎁 Offrir Tech Support 1-2 mois (pack) pour réduire la friction.")
+        actions.append("Offrir Tech Support 1-2 mois (pack) pour réduire la friction.")
     if onlinesecurity in ["no", "no internet service"]:
-        actions.append("🔐 Proposer Online Security (pack) si pertinent.")
+        actions.append("Proposer Online Security si pertinent.")
     if "electronic" in payment:
-        actions.append("💳 Proposer un paiement plus stable (auto-pay) + petit incentive.")
+        actions.append("Proposer un paiement plus stable (auto-pay) + petit incentive.")
 
     if not actions:
-        actions.append("📌 Action générique : contact client + offre de rétention ciblée.")
+        actions.append("Action générique : contact client + offre de rétention ciblée.")
     return actions
 
 
