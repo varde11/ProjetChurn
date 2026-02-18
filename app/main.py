@@ -241,15 +241,15 @@ def delete_client_by_idclient(id_client:int,db:Session=Depends(get_db)):
 import numpy as np
 @app.post("/Simulation", response_model=SimulationOut)
 def simulate_roi(payload: SimulationIn, db: Session = Depends(get_db)):
-    # 1) charger tous les clients
-    clients = db.query(Client).filter(Client.id_client%5==0).order_by(asc(Client.id_client)).all()
+    
+    clients = db.query(Client).order_by(asc(Client.id_client)).all()
     if not clients:
         raise HTTPException(status_code=404, detail="Aucun client en base.")
 
     client_rows = [ClientOut.model_validate(c).model_dump() for c in clients]
     df = pd.DataFrame(client_rows)
 
-    # 2) prédire proba churn pour tous (vectorisé)
+
     probs = predict_proba_batch(df, payload.option)
 
     churn_cost = float(payload.churn_cost)
@@ -304,7 +304,7 @@ def simulate_roi(payload: SimulationIn, db: Session = Depends(get_db)):
         k = int(round(n_clients * (top_percent / 100.0)))
         k = max(0, min(n_clients, k))
 
-        # indices triés par proba décroissante
+        
         order = probs.argsort()[::-1]
         treated_idx = order[:k]
         treated_mask = np.zeros(n_clients, dtype=bool)
@@ -323,8 +323,7 @@ def simulate_roi(payload: SimulationIn, db: Session = Depends(get_db)):
             "expected_roi": expected_roi,
         }
 
-    # 4) top clients (pour la démo)
-    # on montre les 10 plus risqués (ou traités si stratégie top%)
+    
     ids = [c.id_client for c in clients]
     order_all = probs.argsort()[::-1]
     topN = 10 if n_clients >= 10 else n_clients
