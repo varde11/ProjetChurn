@@ -113,9 +113,7 @@ def churn_prediction(id_client:int,option:EnumOption,threshold:float, db:Session
         "time_stamp":datetime.now().strptime(time_stamp_str,"%Y-%m-%d %H:%M:%S")
     }
 
-    # db.add(prediction)
-    # db.commit()
-    # db.refresh(prediction)
+    
 
     return prediction
 
@@ -135,7 +133,7 @@ def decision_by_id_prediction(
     retention_cost = payload.retention_cost
     success_rate = payload.success_rate
 
-    # Faire la prédiction
+    
     churn_obj = churn_prediction(id_client=id_client, option=option, threshold=threshold, db=db)
     if not churn_obj:
         raise HTTPException(status_code=500, detail="La prédiction n'a pas pu être faite.")
@@ -256,7 +254,7 @@ def simulate_roi(payload: SimulationIn, db: Session = Depends(get_db)):
     retention_cost = float(payload.retention_cost)
     success_rate = float(payload.success_rate)
 
-    # helpers
+
     def compute_for_threshold(th: float):
         treated_mask = probs >= th
         treated = int(treated_mask.sum())
