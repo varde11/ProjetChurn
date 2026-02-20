@@ -1,9 +1,18 @@
 from api_client import simulate_roi,ApiError
 import streamlit as st
 import pandas as pd
+from streamlit.errors import StreamlitAPIException
 
 
 st.title("📊 Simulation ROI globale")
+
+
+try:
+    st.set_page_config(page_title="Simulation ROI", page_icon="📊", layout="wide")
+    print("Style applied!!!")
+except StreamlitAPIException:
+    
+    pass
 
 left, _= st.columns([3, 1])
 
