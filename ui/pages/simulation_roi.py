@@ -5,7 +5,7 @@ import pandas as pd
 
 st.title("📊 Simulation ROI globale")
 
-left, right = st.columns([1, 1])
+left, _= st.columns([3, 1])
 
 with left:
     option = st.selectbox("Modèle", ["precision", "recall"], index=0)
@@ -35,13 +35,13 @@ with left:
 
     run = st.button("Lancer la simulation")
 
-with right:
-    st.write(
-        """
-        Cette simulation calcule un ROI **attendu** sur tout le portefeuille.
-        - Avec l'option **threshold** : on traite tous les clients avec proba ≥ seuil
-        """
-    )
+
+st.markdown(
+"""
+Cette simulation calcule un ROI **attendu** sur tout le portefeuille.
+- Avec l'option **threshold** : on traite tous les clients avec proba ≥ seuil
+"""
+)
 
 # - Avec**top_percent** : on traite les X% clients les plus à risque
 
