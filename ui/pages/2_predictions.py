@@ -19,7 +19,7 @@ with left:
         step=0.01,
     )
 
-    st.subheader("Hypothèses coût (ROI)")
+    st.subheader("Hypothèses coût ROI")
     churn_cost = st.number_input("Coût churn", min_value=0.0, value=500.0, step=10.0)
     retention_cost = st.number_input("Coût rétention", min_value=0.0, value=50.0, step=5.0)
     success_rate = st.slider("Taux de succès rétention", 0.0, 1.0, 0.30, 0.05)
@@ -48,7 +48,7 @@ if run:
 
         st.success("Décision enregistrée ✅")
 
-        # res est ton Prediction complet
+        
         st.subheader("Résultat")
         c1, c2, c3, c4 = st.columns(4)
         c1.metric("Probabilité churn", f"{float(res.get('score', 0.0)):.2f}")
@@ -86,4 +86,4 @@ if run:
             st.info("Aucune prédiction enregistrée pour ce client.")
 
     except ApiError as e:
-        st.error(str(e))
+        st.error(str(e)) 
