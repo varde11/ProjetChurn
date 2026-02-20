@@ -35,15 +35,15 @@ with left:
 
     run = st.button("Lancer la simulation")
 
-# with right:
-#     st.write(
-#         """
-# Cette simulation calcule un ROI **attendu** sur tout le portefeuille.
+with right:
+    st.write(
+        """
+        Cette simulation calcule un ROI **attendu** sur tout le portefeuille.
+        - Avec l'option **threshold** : on traite tous les clients avec proba ≥ seuil
+        """
+    )
 
-# - **threshold** : on traite tous les clients avec proba ≥ seuil
-# - **top_percent** : on traite les X% clients les plus à risque
-# """
-#     )
+# - Avec**top_percent** : on traite les X% clients les plus à risque
 
 if run:
     payload = {
