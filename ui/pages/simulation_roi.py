@@ -39,9 +39,6 @@ with right:
     st.write(
         """
 Cette simulation calcule un ROI **attendu** sur tout le portefeuille.
-
-- **threshold** : on traite tous les clients avec proba ≥ seuil
-- **top_percent** : on traite les X% clients les plus à risque
 """
     )
 
