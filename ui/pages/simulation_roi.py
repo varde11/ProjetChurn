@@ -19,7 +19,7 @@ left, _= st.columns([3, 1])
 with left:
     option = st.selectbox("Modèle", ["precision", "recall"], index=0)
 
-    strategy = st.selectbox("Stratégie", ["threshold", "top_percent"], index=0)
+    strategy = st.selectbox("Stratégie", ["threshold"], index=0)
 
     st.subheader("Coûts / hypothèses")
     churn_cost = st.number_input("Coût churn", min_value=0.0, value=500.0, step=10.0)
