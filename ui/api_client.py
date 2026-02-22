@@ -50,7 +50,7 @@ def decision(
     resp = requests.post(f"{API_URL}/Decision", json=payload, timeout=60)
     return _handle(resp)
 
-# (Optionnel) garder AddPrediction si tu l'utilises ailleurs
+
 def add_prediction(id_client: int, option: str, threshold: float) -> Dict[str, Any]:
     resp = requests.post(
         f"{API_URL}/AddPrediction/{id_client}/{option}",
