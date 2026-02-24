@@ -1,152 +1,152 @@
-# 📉 Churn Decision Intelligence App
+# Churn Decision Intelligence App
 
-> A deployed machine learning application that goes beyond churn prediction by integrating business strategy and ROI optimization.
+> Une application de machine learning qui va au-delà de la simple prédiction de churn en intégrant la stratégie métier et l'optimisation du ROI.
 
-**🔗 [Live Demo](https://varde11-churn-frontend.hf.space/)**
-
----
-
-## 🚀 Project Overview
-
-Most churn projects stop at classification. But **predicting churn is not enough.**
-
-This application transforms a classical churn model into a **decision intelligence system** that answers a more important question:
-
-> **Is it financially worth acting?**
-
-### Core Capabilities
-
-- ✅ **Churn Prediction** – Precision & Recall optimized models
-- ✅ **Adjustable Decision Threshold** – Control prediction sensitivity
-- ✅ **Business Integration** – Cost of churn, retention cost, success rate
-- ✅ **Action Recommendations** – Personalized retention strategies
-- ✅ **ROI Computation** – Financial impact analysis
-- ✅ **Portfolio Simulation** – Global strategy optimization
-- ✅ **Automatic Threshold Selection** – Optimal strategy discovery
+**Démo en ligne:** [https://varde11-churn-frontend.hf.space/](https://varde11-churn-frontend.hf.space/)
 
 ---
 
-## 🧠 Key Features
+## Vue d'ensemble du projet
 
-### 1️⃣ Client-Level Prediction
+La plupart des projets de churn s'arrêtent à la classification. Mais **prédire le churn ne suffit pas.**
 
-For a selected client:
-- Choose optimization model (Precision / Recall)
-- Adjust decision threshold
-- Define business assumptions
-- **Output:** Churn probability + Recommended actions + Expected financial gain
+Cette application transforme un modèle de churn classique en **système d'intelligence décisionnelle** qui répond à une question plus importante :
 
-### 2️⃣ Portfolio-Level ROI Simulation
+> **Est-il financièrement rentable d'agir ?**
 
-Analyze strategy impact across entire customer base:
-- Compare multiple thresholds
-- Compute expected ROI per threshold
-- Identify optimal threshold automatically
-- Visualize gains through tables and curves
-- Identify top at-risk customers
+### Capabilités principales
 
-### 3️⃣ Architecture
-
-- **Backend:** FastAPI
-- **Database:** PostgreSQL (Neon)
-- **Frontend:** Streamlit
-- **Orchestration:** Docker Compose
-- **ML:** Scikit-learn models (precision & recall tuned)
+- ✓ **Prédiction de churn** – Modèles optimisés Précision & Rappel
+- ✓ **Seuil de décision ajustable** – Contrôler la sensibilité des prédictions
+- ✓ **Intégration métier** – Coût du churn, coût de rétention, taux de succès
+- ✓ **Recommandations d'actions** – Stratégies de rétention personnalisées
+- ✓ **Calcul du ROI** – Analyse d'impact financier
+- ✓ **Simulation de portefeuille** – Optimisation de stratégie globale
+- ✓ **Sélection automatique du seuil** – Découverte de la stratégie optimale
 
 ---
 
-## 📊 Why This Project Is Different
+## Fonctionnalités clés
 
-**A model with 90% accuracy can still lose money.**
+### 1 - Prédiction au niveau client
 
-Traditional ML projects focus on metrics. This system demonstrates how ML must integrate:
+Pour un client sélectionné :
+- Choisir le modèle d'optimisation (Précision / Rappel)
+- Ajuster le seuil de décision
+- Définir les hypothèses métier
+- **Résultat :** Probabilité de churn + Actions recommandées + Gain financier attendu
 
-1. **Business Constraints** – Real-world cost structures
-2. **Financial Modeling** – Expected value calculation
-3. **Decision Strategy** – When to act and how
+### 2 - Simulation ROI au niveau portefeuille
 
-It shifts from _"predicting churn"_ → _"optimizing action strategy"_
+Analyser l'impact de la stratégie sur l'ensemble de la clientèle :
+- Comparer plusieurs seuils
+- Calculer le ROI attendu par seuil
+- Identifier automatiquement le seuil optimal
+- Visualiser les gains via tableaux et courbes
+- Identifier les clients à risque prioritaires
+
+### 3 - Architecture
+
+- **Backend :** FastAPI
+- **Base de données :** PostgreSQL (Neon)
+- **Frontend :** Streamlit
+- **Orchestration :** Docker Compose
+- **ML :** Modèles Scikit-learn (optimisés précision & rappel)
 
 ---
 
-## 🛠 Tech Stack
+## Pourquoi ce projet est différent
 
-| Component | Technology |
+**Un modèle avec 90% de précision peut quand même perdre de l'argent.**
+
+Les projets ML traditionnels se concentrent sur les métriques. Ce système montre comment le ML doit intégrer :
+
+1. **Contraintes métier** – Structures de coûts réels
+2. **Modélisation financière** – Calcul de la valeur attendue
+3. **Stratégie de décision** – Quand et comment agir
+
+Il passe de *"prédire le churn"* → *"optimiser la stratégie d'action"*
+
+---
+
+## Stack technologique
+
+| Composant | Technologie |
 |-----------|------------|
 | **Backend** | Python, FastAPI |
 | **Frontend** | Streamlit |
 | **ML** | Scikit-learn, Pandas |
-| **Database** | PostgreSQL (Neon) / SQLite (dev) |
+| **Base de données** | PostgreSQL (Neon) / SQLite (dev) |
 | **ORM** | SQLAlchemy |
 | **Orchestration** | Docker Compose |
-| **Deployment** | Hugging Face Spaces |
+| **Déploiement** | Hugging Face Spaces |
 
 ---
 
-## 📁 Project Structure
+## Structure du projet
 
 ```
 ProjetChurn/
-├── app/                      # FastAPI backend
-│   ├── main.py              # API routes
-│   ├── schema.py            # Pydantic models
-│   ├── db.py                # Database session
-│   ├── table_structure.py   # SQLAlchemy models
-│   ├── logic.py             # Prediction logic
-│   ├── decision_logic.py    # ROI & action logic
-│   ├── model/               # Saved ML models
-│   └── preprocessing/       # Scaler & encoder
-├── ui/                       # Streamlit frontend
-│   ├── app.py               # Main page
-│   └── pages/               # Feature pages
-├── initdb/                   # Database initialization
-│   ├── 01create_table.sql   # Schema
-│   └── 02fill_table.sql     # Example data
-├── test/                     # Pytest tests
-│   └── test_api.py          # API tests
-├── docker-compose.yml       # Service orchestration
-└── readme.md                # This file
+├── app/                      # Backend FastAPI
+│   ├── main.py              # Routes API
+│   ├── schema.py            # Modèles Pydantic
+│   ├── db.py                # Session base de données
+│   ├── table_structure.py   # Modèles SQLAlchemy
+│   ├── logic.py             # Logique de prédiction
+│   ├── decision_logic.py    # Logique ROI & actions
+│   ├── model/               # Modèles ML sauvegardés
+│   └── preprocessing/       # Scaler & encodeur
+├── ui/                       # Frontend Streamlit
+│   ├── app.py               # Page principale
+│   └── pages/               # Pages des fonctionnalités
+├── initdb/                   # Initialisation base de données
+│   ├── 01create_table.sql   # Schéma
+│   └── 02fill_table.sql     # Données d'exemple
+├── test/                     # Tests Pytest
+│   └── test_api.py          # Tests API
+├── docker-compose.yml       # Orchestration des services
+└── readme.md                # Ce fichier
 ```
 
 ---
 
-## 🚀 Getting Started
+## Démarrage rapide
 
-### Prerequisites
+### Prérequis
 
 - Docker & Docker Compose
-- Python 3.9+ (for local development)
+- Python 3.9+ (pour le développement local)
 
-### Quick Start
+### Installation
 
-1. **Clone & Navigate**
+1. **Cloner et naviguer**
    ```bash
    cd ProjetChurn
    ```
 
-2. **Build & Start Services**
+2. **Construire et démarrer les services**
    ```bash
    docker compose build --progress=plain
    docker compose up
    ```
 
-3. **Access Applications**
-   - **API Docs:** `http://localhost:8000/docs`
-   - **Frontend:** `http://localhost:8501`
+3. **Accéder aux applications**
+   - **Documentation API :** `http://localhost:8000/docs`
+   - **Frontend :** `http://localhost:8501`
 
 ---
 
-## 🔌 API Endpoints
+## Points terminaux API
 
-### Client Management
+### Gestion des clients
 
-- `GET /GetClientByIdClient` – Retrieve specific client
-- `POST /AddClient` – Create new client
-- `DELETE /DeleteClientByIdClient` – Remove client & predictions
+- `GET /GetClientByIdClient` – Récupérer un client spécifique
+- `POST /AddClient` – Créer un nouveau client
+- `DELETE /DeleteClientByIdClient` – Supprimer un client et ses prédictions
 
-### Predictions
+### Prédictions
 
-- `POST /Decision` – **Main endpoint** – Full decision intelligence
+- `POST /Decision` – **Point d'entrée principal** – Intelligence décisionnelle complète
   ```json
   {
     "id_client": 1,
@@ -157,19 +157,19 @@ ProjetChurn/
     "success_rate": 0.3
   }
   ```
-- `GET /getPredictionByIdClient` – List client predictions
-- `GET /getPredictionByIdPrediction` – Retrieve specific prediction
-- `DELETE /deletePredictionByIdPrediction` – Remove prediction
+- `GET /getPredictionByIdClient` – Lister les prédictions d'un client
+- `GET /getPredictionByIdPrediction` – Récupérer une prédiction spécifique
+- `DELETE /deletePredictionByIdPrediction` – Supprimer une prédiction
 
 ### Analytics
 
-- `GET /GetAllClientByLabel` – Filter clients by churn label
+- `GET /GetAllClientByLabel` – Filtrer les clients par statut de churn
 
 ---
 
-## 🧪 Testing
+## Tests
 
-Run pytest suite:
+Exécuter la suite de tests :
 
 ```bash
 pytest test/test_api.py -v
@@ -177,22 +177,17 @@ pytest test/test_api.py -v
 
 ---
 
-## 📈 Future Improvements
+## Améliorations futures
 
-- [ ] Advanced uplift modeling
-- [ ] Cost-sensitive learning
-- [ ] Automated hyperparameter selection for ROI
-- [ ] Multi-segment strategy optimization
-- [ ] A/B testing framework integration
-
----
-
-## 👨‍💻 Author
-
-**Vannel** – AI Engineer specializing in ML & Decision Systems
+- [ ] Modélisation d'uplift avancée
+- [ ] Apprentissage sensible aux coûts
+- [ ] Sélection automatique des hyperparamètres pour le ROI
+- [ ] Optimisation de stratégie multi-segment
+- [ ] Intégration de framework de test A/B
 
 ---
 
-## 📝 License
+## Auteur
 
-This project is open-source. Feel free to use and modify.
+**Vannel** – Ingénieur IA spécialisé en ML et Systèmes Décisionnels
+
