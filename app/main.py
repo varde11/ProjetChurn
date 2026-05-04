@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
     load_artifacts()
 
-    # Depends() isn't resolved for the lifespan function, create a session explicitly
+    
     db = sessionLocal()
     try:
         seed_clients_if_empty(db)

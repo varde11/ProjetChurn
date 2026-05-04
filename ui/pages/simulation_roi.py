@@ -52,7 +52,7 @@ Cette simulation calcule un ROI **attendu** sur tout le portefeuille.
 """
 )
 
-# - Avec**top_percent** : on traite les X% clients les plus à risque
+
 
 if run:
     payload = {

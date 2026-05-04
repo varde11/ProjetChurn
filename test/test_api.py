@@ -18,7 +18,7 @@ SQLALCHEMY_DATABASE_URL = "sqlite:///./dummy.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False}, # Nécessaire pour SQLite
+    connect_args={"check_same_thread": False}, #ok
     poolclass=StaticPool
 )
 
@@ -39,7 +39,7 @@ client = TestClient(app)
 
 def setup_database():
     """Cette fonction réinitialise la base et crée un client test"""
-    # Réinitialiser complètement la base
+    
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
@@ -128,7 +128,7 @@ def test_predict():
     
 
 def test_delete():
-    # Créer d'abord une prédiction pour la supprimer
+    
     decision_payload = {
         "id_client": 1,
         "option": "precision",
@@ -146,7 +146,7 @@ def test_delete():
     assert reponse_delete_by_idPred.status_code == 200
     assert reponse_delete_by_idPred.json()['id_prediction'] == id_prediction
 
-    # Créer une autre prédiction pour tester la suppression par id_client
+    
     decision_payload2 = {
         "id_client": 1,
         "option": "recall",
