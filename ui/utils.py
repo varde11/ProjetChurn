@@ -22,22 +22,22 @@ def recommend_actions(client: Dict[str, Any], churn_prob: float, threshold: floa
 
     # Actions "très business", faciles à justifier
     if "month" in contract:
-        actions.append("📌 Proposer une migration vers un contrat 1 an / 2 ans (réduction ou bonus) : faible coût, gros impact.")
+        actions.append("Proposer une migration vers un contrat 1 an / 2 ans (réduction ou bonus) : faible coût, gros impact.")
     if tenure < 6:
-        actions.append("📞 Appel onboarding / satisfaction (nouveaux clients) + check qualité du service.")
+        actions.append("Appel onboarding / satisfaction (nouveaux clients) + check qualité du service.")
     if monthly > 80:
-        actions.append("💸 Proposer un bundle / remise ciblée sur 2-3 mois plutôt qu’une remise permanente.")
+        actions.append("Proposer un bundle / remise ciblée sur 2-3 mois plutôt qu’une remise permanente.")
     if internet == "fiber optic":
-        actions.append("🛠️ Vérifier incidents/qualité fibre (zone) + proposer support proactif.")
+        actions.append("Vérifier incidents/qualité fibre (zone) + proposer support proactif.")
     if techsupport in ["no", "no internet service"]:
-        actions.append("🎁 Offrir Tech Support pendant 1-2 mois (ou pack) pour réduire la friction.")
+        actions.append("Offrir Tech Support pendant 1-2 mois (ou pack) pour réduire la friction.")
     if onlinesecurity in ["no", "no internet service"]:
-        actions.append("🔐 Proposer Online Security (pack) si pertinent, souvent corrélé à meilleure rétention.")
+        actions.append("Proposer Online Security (pack) si pertinent, souvent corrélé à meilleure rétention.")
     if "electronic" in payment:
-        actions.append("💳 Proposer un moyen de paiement plus stable (auto-pay) si possible + petit incentive.")
+        actions.append("Proposer un moyen de paiement plus stable (auto-pay) si possible + petit incentive.")
 
     if not actions:
-        actions.append("📌 Action générique : contact client + offre de rétention ciblée.")
+        actions.append("Action générique : contact client + offre de rétention ciblée.")
     return actions
 
 def simple_roi(
