@@ -37,7 +37,7 @@ def recommend_actions(client: Dict[str, Any], churn_prob: float, threshold: floa
         actions.append("Proposer un moyen de paiement plus stable (auto-pay) si possible + petit incentive.")
 
     if not actions:
-        actions.append("Action générique: contact client + offre de rétention ciblée.")
+        actions.append("📌 Action générique : contact client + offre de rétention ciblée.")
     return actions
 
 def simple_roi(
